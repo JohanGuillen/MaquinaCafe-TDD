@@ -1,0 +1,25 @@
+
+name: CI Pipeline
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v7
+
+      - name: Configurar Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+
+      - name: Compilar proyecto y ejecutar pruebas
+        run: mvn --batch-mode clean test -Dmaven.compiler.source=17 -Dmaven.compiler.target=17
